@@ -19,7 +19,7 @@ DASH_PASSWORD = os.environ.get("TV_DASH_PASSWORD", "hw132319")
 ENV = os.environ.get("TV_ENV", "production")
 PORT = _int_env("TV_PORT", 8080)
 
-PUBLIC_BASE_URL = os.environ.get("TV_PUBLIC_BASE_URL", "https://tradingview.onrender.com")
+PUBLIC_BASE_URL = os.environ.get("TV_PUBLIC_BASE_URL", "https://tradingview-k7u2.onrender.com")
 SUPABASE_ENABLED = os.environ.get("SUPABASE_ENABLED", "0") == "1"
 SUPABASE_DB_HOST = os.environ.get("SUPABASE_DB_HOST", "")
 SUPABASE_DB_PORT = _int_env("SUPABASE_DB_PORT", 6543)
