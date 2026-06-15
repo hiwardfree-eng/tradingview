@@ -1,35 +1,35 @@
 {% extends "base.html" %}
 {% block content %}
-<section class="section" style="padding-top:80px">
-  <h2 class="section-title">PANEL ADMIN</h2>
-  <p class="section-sub">GESTIÓN DE KEYS Y SISTEMA</p>
+<section class="section" style="padding-top:90px">
+  <h2 class="section-title" style="font-size:1.4rem">⚡ PANEL ADMIN</h2>
+  <p class="section-sub">GESTIÓN DE KEYS — CONTROL TOTAL DEL SISTEMA</p>
 
-  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;max-width:700px;margin:0 auto 28px">
-    <div class="glass" style="padding:20px;text-align:center;border-color:rgba(34,211,238,0.12)">
-      <div style="font-size:2rem;font-weight:700;color:#22d3ee" id="stat-total">0</div>
-      <div style="font-size:.7rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em">Total Keys</div>
+  <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px;max-width:750px;margin:0 auto 32px">
+    <div class="glass" style="padding:22px 16px;text-align:center;border-color:rgba(34,211,238,0.08)">
+      <div style="font-size:2.2rem;font-weight:800;background:linear-gradient(135deg,#22d3ee,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent" id="stat-total">0</div>
+      <div style="font-size:.65rem;color:#475569;text-transform:uppercase;letter-spacing:.1em;margin-top:4px">Total Keys</div>
     </div>
-    <div class="glass" style="padding:20px;text-align:center;border-color:rgba(34,211,238,0.12)">
-      <div style="font-size:2rem;font-weight:700;color:#22c55e" id="stat-active">0</div>
-      <div style="font-size:.7rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em">Activas</div>
+    <div class="glass" style="padding:22px 16px;text-align:center;border-color:rgba(34,211,238,0.08)">
+      <div style="font-size:2.2rem;font-weight:800;color:#22c55e" id="stat-active">0</div>
+      <div style="font-size:.65rem;color:#475569;text-transform:uppercase;letter-spacing:.1em;margin-top:4px">Activas</div>
     </div>
-    <div class="glass" style="padding:20px;text-align:center;border-color:rgba(34,211,238,0.12)">
-      <div style="font-size:2rem;font-weight:700;color:#fbbf24" id="stat-used">0</div>
-      <div style="font-size:.7rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em">Usadas</div>
+    <div class="glass" style="padding:22px 16px;text-align:center;border-color:rgba(34,211,238,0.08)">
+      <div style="font-size:2.2rem;font-weight:800;color:#fbbf24" id="stat-used">0</div>
+      <div style="font-size:.65rem;color:#475569;text-transform:uppercase;letter-spacing:.1em;margin-top:4px">Usadas</div>
     </div>
-    <div class="glass" style="padding:20px;text-align:center;border-color:rgba(34,211,238,0.12)">
-      <div style="font-size:2rem;font-weight:700;color:#94a3b8" id="stat-uptime">0s</div>
-      <div style="font-size:.7rem;color:#64748b;text-transform:uppercase;letter-spacing:.08em">Uptime</div>
+    <div class="glass" style="padding:22px 16px;text-align:center;border-color:rgba(34,211,238,0.08)">
+      <div style="font-size:2.2rem;font-weight:800;color:#94a3b8" id="stat-uptime">0s</div>
+      <div style="font-size:.65rem;color:#475569;text-transform:uppercase;letter-spacing:.1em;margin-top:4px">Uptime</div>
     </div>
   </div>
 
-  <div class="glass" style="padding:22px;border-color:rgba(34,211,238,0.12);margin-bottom:16px">
-    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:10px;margin-bottom:16px">
-      <div style="font-size:.9rem;font-weight:600;color:#e2e8f0">Keys</div>
-      <div style="display:flex;gap:8px;flex-wrap:wrap">
+  <div class="glass" style="padding:24px;border-color:rgba(34,211,238,0.08);margin-bottom:18px">
+    <div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin-bottom:18px">
+      <div style="font-size:.85rem;font-weight:600;color:#e2e8f0;font-family:'Orbitron',sans-serif;letter-spacing:.04em">KEYS</div>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;align-items:center">
         <input id="new-key-label" placeholder="Label (opcional)" style="width:140px">
         <button class="btn btn-primary" onclick="genKey()">+ Generar Key</button>
-        <button class="btn btn-outline" onclick="refreshKeys()">Refrescar</button>
+        <button class="btn btn-outline" onclick="refreshKeys()">⟳ Refrescar</button>
       </div>
     </div>
     <div style="overflow-x:auto">
@@ -38,19 +38,24 @@
         <tbody id="keys-table"></tbody>
       </table>
     </div>
-    <div id="no-keys" style="text-align:center;padding:30px;color:#64748b;font-size:.85rem;display:none">No hay keys generadas</div>
+    <div id="no-keys" style="text-align:center;padding:40px;color:#475569;font-size:.82rem;display:none">No hay keys generadas</div>
   </div>
 
-  <div class="glass" style="padding:22px;border-color:rgba(34,211,238,0.12)">
-    <div style="font-size:.9rem;font-weight:600;color:#e2e8f0;margin-bottom:12px">Logs del Sistema</div>
-    <div id="logs-container" style="max-height:260px;overflow-y:auto;font-family:'JetBrains Mono',monospace;font-size:.75rem;line-height:1.8">
-      <div style="color:#64748b;padding:8px">Cargando...</div>
+  <div class="glass" style="padding:24px;border-color:rgba(34,211,238,0.08)">
+    <div style="font-size:.85rem;font-weight:600;color:#e2e8f0;margin-bottom:14px;font-family:'Orbitron',sans-serif">LOGS DEL SISTEMA</div>
+    <div id="logs-container" style="max-height:280px;overflow-y:auto;font-family:'JetBrains Mono',monospace;font-size:.72rem;line-height:1.9">
+      <div style="color:#475569;padding:10px">Cargando...</div>
     </div>
+  </div>
+
+  <div style="margin-top:24px;text-align:center">
+    <a href="/logout" class="btn btn-danger" style="padding:8px 20px">Cerrar Sesión</a>
   </div>
 </section>
 {% endblock %}
 
 {% block scripts %}
+<script>
 async function loadStats(){
   try{
     const r=await fetch("/api/stats");const d=await r.json();
@@ -68,15 +73,15 @@ async function refreshKeys(){
     if(!d.length){t.innerHTML="";document.getElementById("no-keys").style.display="block";return}
     document.getElementById("no-keys").style.display="none";
     t.innerHTML=d.map(k=>`<tr>
-      <td style="font-family:'JetBrains Mono',monospace;color:#22d3ee">${k.code}</td>
+      <td style="font-family:'JetBrains Mono',monospace;color:#22d3ee;font-weight:500">${k.code}</td>
       <td style="color:#94a3b8">${k.label||'-'}</td>
       <td><span class="tag ${k.active?'tag-active':'tag-inactive'}">${k.active?'Activa':'Inactiva'}</span></td>
       <td>${k.used}</td>
-      <td style="color:#64748b;font-size:.75rem">${new Date(k.created*1000).toLocaleDateString()}</td>
-      <td>
-        <button class="btn btn-outline" style="padding:4px 10px;font-size:.72rem" onclick="toggleKey('${k.code}')">${k.active?'Desactivar':'Activar'}</button>
-        <button class="btn btn-danger" style="padding:4px 10px;font-size:.72rem" onclick="delKey('${k.code}')">Eliminar</button>
-      </td>
+      <td style="color:#64748b;font-size:.72rem">${new Date(k.created*1000).toLocaleDateString()}</td>
+      <td><div style="display:flex;gap:5px">
+        <button class="btn btn-outline" style="padding:5px 12px;font-size:.7rem" onclick="toggleKey('${k.code}')">${k.active?'Desactivar':'Activar'}</button>
+        <button class="btn btn-danger" style="padding:5px 12px;font-size:.7rem" onclick="delKey('${k.code}')">Eliminar</button>
+      </div></td>
     </tr>`).join("");
   }catch(e){}
 }
@@ -104,14 +109,15 @@ async function delKey(code){
 async function loadLogs(){
   try{
     const r=await fetch("/api/logs");const d=await r.json();
-    document.getElementById("logs-container").innerHTML=d.map(l=>`<div style="padding:4px 8px;border-bottom:1px solid rgba(255,255,255,0.03)">
-      <span style="color:#64748b">${l.time.slice(11,19)}</span>
-      <span style="color:#94a3b8">[${l.level}]</span>
-      <span style="color:#e2e8f0">${l.event}</span>
-      ${l.detail?`<span style="color:#64748b">${l.detail}</span>`:''}
-    </div>`).join("")||'<div style="color:#64748b;padding:8px">Sin logs</div>';
+    document.getElementById("logs-container").innerHTML=d.map(l=>`<div style="padding:5px 10px;border-bottom:1px solid rgba(255,255,255,0.02)">
+      <span style="color:#475569">${l.time.slice(11,19)}</span>
+      <span style="color:#64748b">[${l.level}]</span>
+      <span style="color:#22d3ee">${l.event}</span>
+      ${l.detail?`<span style="color:#475569">${l.detail}</span>`:''}
+    </div>`).join("")||'<div style="color:#475569;padding:10px">Sin logs</div>';
   }catch(e){}
 }
 loadStats();refreshKeys();loadLogs();
 setInterval(()=>{loadStats();refreshKeys();loadLogs()},10000);
+</script>
 {% endblock %}

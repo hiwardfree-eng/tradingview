@@ -1,34 +1,35 @@
 {% extends "base.html" %}
 {% block content %}
-<section class="section" style="padding-top:80px">
-  <h2 class="section-title">TERMINAL DE TRADING</h2>
-  <p class="section-sub">CHART PROFESIONAL EN VIVO</p>
+<section class="section" style="padding-top:90px">
+  <h2 class="section-title" style="font-size:1.5rem">⚡ TERMINAL DE TRADING</h2>
+  <p class="section-sub">PROFESSIONAL CHART — STREAMING EN VIVO</p>
 
-  <div style="display:grid;grid-template-columns:1fr 320px;gap:16px;max-width:1200px;margin:0 auto">
-    <div class="glass" style="padding:4px;border-color:rgba(34,211,238,0.12);overflow:hidden;border-radius:12px">
-      <div id="tv-chart-main" style="height:600px;border-radius:10px;overflow:hidden;background:#0a0b0f"></div>
+  <div style="display:grid;grid-template-columns:1fr 320px;gap:20px;max-width:1200px;margin:0 auto">
+    <div class="glass" style="padding:4px;border-color:rgba(34,211,238,0.08);overflow:hidden;border-radius:14px;box-shadow:0 0 30px rgba(34,211,238,0.03)">
+      <div id="tv-chart-main" style="height:620px;border-radius:12px;overflow:hidden;background:#07080d"></div>
     </div>
-    <div>
-      <div class="glass" style="padding:18px;border-color:rgba(34,211,238,0.12);margin-bottom:12px">
-        <div style="font-size:.7rem;color:#64748b;text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">Precio en Vivo</div>
-        <div style="font-family:'JetBrains Mono',monospace;font-size:1.8rem;font-weight:700;color:#22d3ee" id="term-price">--</div>
-        <div style="display:flex;gap:10px;margin-top:10px;font-size:.72rem">
-          <span style="color:#64748b">24h:</span><span id="term-change" style="color:#22c55e;font-weight:600">--</span>
+    <div style="display:flex;flex-direction:column;gap:14px">
+      <div class="glass" style="padding:22px;border-color:rgba(34,211,238,0.08);position:relative;overflow:hidden">
+        <div style="position:absolute;top:-20px;right:-20px;width:80px;height:80px;background:radial-gradient(circle,rgba(34,211,238,0.05),transparent 70%);border-radius:50%"></div>
+        <div style="font-size:.65rem;color:#475569;text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px">Precio en Vivo</div>
+        <div style="font-family:'JetBrains Mono',monospace;font-size:2rem;font-weight:700;background:linear-gradient(135deg,#22d3ee,#818cf8);-webkit-background-clip:text;-webkit-text-fill-color:transparent" id="term-price">--</div>
+        <div style="display:flex;gap:12px;margin-top:10px;font-size:.7rem">
+          <span style="color:#475569">24h:</span><span id="term-change" style="color:#22c55e;font-weight:600">--</span>
         </div>
       </div>
-      <div class="glass" style="padding:18px;border-color:rgba(34,211,238,0.12);margin-bottom:12px">
-        <div style="font-size:.7rem;color:#64748b;text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">Verificar Key</div>
-        <input id="key-input" placeholder="TV-XXXXXXXX" style="margin-bottom:8px">
-        <button class="btn btn-primary" style="width:100%" onclick="verifyKey()">Verificar</button>
-        <div id="key-result" style="margin-top:8px;font-size:.78rem"></div>
+      <div class="glass" style="padding:22px;border-color:rgba(34,211,238,0.08)">
+        <div style="font-size:.65rem;color:#475569;text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px">Verificar Key</div>
+        <input id="key-input" placeholder="TV-XXXXXXXX" style="margin-bottom:10px;font-size:.8rem">
+        <button class="btn btn-primary" style="width:100%;justify-content:center" onclick="verifyKey()">Verificar</button>
+        <div id="key-result" style="margin-top:10px;font-size:.78rem;text-align:center;min-height:20px"></div>
       </div>
-      <div class="glass" style="padding:18px;border-color:rgba(34,211,238,0.12)">
-        <div style="font-size:.7rem;color:#64748b;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px">Atajos</div>
-        <div style="font-size:.78rem;color:#94a3b8;line-height:2">
-          <div><span style="color:#22d3ee;font-family:'JetBrains Mono',monospace">BTC</span> Bitcoin</div>
-          <div><span style="color:#22d3ee;font-family:'JetBrains Mono',monospace">ETH</span> Ethereum</div>
-          <div><span style="color:#22d3ee;font-family:'JetBrains Mono',monospace">SOL</span> Solana</div>
-          <div><span style="color:#22d3ee;font-family:'JetBrains Mono',monospace">BNB</span> Binance Coin</div>
+      <div class="glass" style="padding:22px;border-color:rgba(34,211,238,0.08)">
+        <div style="font-size:.65rem;color:#475569;text-transform:uppercase;letter-spacing:.12em;margin-bottom:10px">Atajos Rápidos</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:.78rem">
+          <div style="padding:6px 10px;background:rgba(34,211,238,0.04);border-radius:8px;border:1px solid rgba(34,211,238,0.06)"><span style="color:#22d3ee;font-family:'JetBrains Mono',monospace;font-weight:600">BTC</span><br><span style="color:#64748b;font-size:.7rem">Bitcoin</span></div>
+          <div style="padding:6px 10px;background:rgba(34,211,238,0.04);border-radius:8px;border:1px solid rgba(34,211,238,0.06)"><span style="color:#22d3ee;font-family:'JetBrains Mono',monospace;font-weight:600">ETH</span><br><span style="color:#64748b;font-size:.7rem">Ethereum</span></div>
+          <div style="padding:6px 10px;background:rgba(34,211,238,0.04);border-radius:8px;border:1px solid rgba(34,211,238,0.06)"><span style="color:#22d3ee;font-family:'JetBrains Mono',monospace;font-weight:600">SOL</span><br><span style="color:#64748b;font-size:.7rem">Solana</span></div>
+          <div style="padding:6px 10px;background:rgba(34,211,238,0.04);border-radius:8px;border:1px solid rgba(34,211,238,0.06)"><span style="color:#22d3ee;font-family:'JetBrains Mono',monospace;font-weight:600">BNB</span><br><span style="color:#64748b;font-size:.7rem">Binance</span></div>
         </div>
       </div>
     </div>
@@ -37,29 +38,22 @@
 {% endblock %}
 
 {% block scripts %}
+<script>
 (function(){
   var s=document.createElement("script");
   s.src="https://s3.tradingview.com/tv.js";
   s.onload=function(){
     if(typeof TradingView!=="undefined"){
       new TradingView.widget({
-        container_id:"tv-chart-main",
-        width:"100%",height:600,
-        symbol:"BINANCE:BTCUSDT",
-        interval:"60",
-        timezone:"America/Argentina/Buenos_Aires",
-        theme:"dark",
-        style:"1",
-        locale:"es",
-        toolbar_bg:"#0a0b0f",
-        enable_publishing:false,
-        hide_side_toolbar:false,
-        allow_symbol_change:true,
-        details:true,
+        container_id:"tv-chart-main",width:"100%",height:620,
+        symbol:"BINANCE:BTCUSDT",interval:"60",
+        timezone:"America/Argentina/Buenos_Aires",theme:"dark",style:"1",
+        locale:"es",toolbar_bg:"#07080d",enable_publishing:false,
+        hide_side_toolbar:false,allow_symbol_change:true,details:true,
         studies:["RSI@tv-basicstudies","MACD@tv-basicstudies","BB@tv-basicstudies"],
         disabled_features:["use_localstorage_for_settings"],
-        overrides:{"paneProperties.background":"#0a0b0f","paneProperties.vertGridProperties.color":"#1a1d2e","paneProperties.horzGridProperties.color":"#1a1d2e"},
-        loading_screen:{backgroundColor:"#0a0b0f"}
+        overrides:{"paneProperties.background":"#07080d","paneProperties.vertGridProperties.color":"#131626","paneProperties.horzGridProperties.color":"#131626"},
+        loading_screen:{backgroundColor:"#07080d"}
       });
     }
   };
@@ -78,18 +72,18 @@ async function fetchTermPrice(){
     el.style.color=c>=0?"#22c55e":"#ef4444";
   }catch(e){}
 }
-fetchTermPrice();
-setInterval(fetchTermPrice,5000);
+fetchTermPrice(); setInterval(fetchTermPrice,5000);
 
 async function verifyKey(){
   const code=document.getElementById("key-input").value.trim();
   const res=document.getElementById("key-result");
-  if(!code){res.innerHTML='<span style="color:#ef4444">Ingresá una key</span>';return}
+  if(!code){res.innerHTML='<span style="color:#ef4444">✕ Ingresá una key</span>';return}
   try{
     const r=await fetch("/api/verify-key",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({code})});
     const d=await r.json();
-    if(d.ok) res.innerHTML='<span style="color:#22c55e">Key valida - Bienvenido</span>';
-    else res.innerHTML='<span style="color:#ef4444">Key invalida o desactivada</span>';
-  }catch(e){res.innerHTML='<span style="color:#ef4444">Error de conexion</span>'}
+    if(d.ok) res.innerHTML='<span style="color:#22c55e">✓ Key válida — Bienvenido</span>';
+    else res.innerHTML='<span style="color:#ef4444">✕ Key inválida o desactivada</span>';
+  }catch(e){res.innerHTML='<span style="color:#ef4444">✕ Error de conexión</span>'}
 }
+</script>
 {% endblock %}
