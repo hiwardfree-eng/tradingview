@@ -166,10 +166,6 @@ def admin():
 def terminal():
     return render_template("terminal.html", base_url=PUBLIC_BASE_URL)
 
-@app.route("/downloads")
-def downloads():
-    return render_template("downloads.html", base_url=PUBLIC_BASE_URL)
-
 @app.route("/assets/<path:filename>")
 def serve_assets(filename):
     return send_from_directory(os.path.join(os.path.dirname(__file__), "assets"), filename)
