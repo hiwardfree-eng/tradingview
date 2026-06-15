@@ -14,8 +14,8 @@ LOG_DIR = os.environ.get("TV_LOG_DIR", os.path.join(BASE_DIR, "logs"))
 BOT_TOKEN = os.environ.get("TV_BOT_TOKEN", "")
 ADMIN_ID = _int_env("TV_ADMIN_ID", 0)
 BOT_ENABLED = os.environ.get("TV_BOT_ENABLED", "1") == "1"
-ADMIN_USER = os.environ.get("TV_ADMIN_USER", "admin")
-DASH_PASSWORD = os.environ.get("TV_DASH_PASSWORD", "TradingView2024")
+ADMIN_USER = os.environ.get("TV_ADMIN_USER", "tilinX")
+DASH_PASSWORD = os.environ.get("TV_DASH_PASSWORD", "hw132319")
 ENV = os.environ.get("TV_ENV", "production")
 PORT = _int_env("TV_PORT", 8080)
 
