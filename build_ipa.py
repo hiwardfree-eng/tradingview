@@ -1,11 +1,12 @@
 """Build modified TradingView IPA from NOVA TECH APP base."""
 import os, shutil, zipfile, plistlib
 
+BASE = os.path.dirname(os.path.abspath(__file__))
 SOURCE_IPA = "C:/Users/Chichi/Downloads/NOVA TECH APP_1.0.1_1775132453.ipa"
-OUTPUT_IPA = os.path.join(os.path.dirname(os.path.abspath(__file__)), "IPA", "tradingview.ipa")
-PAYLOAD_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "IPA", "Payload")
+OUTPUT_IPA = os.path.join(BASE, "IPA", "tradingview.ipa")
+PAYLOAD_DIR = os.path.join(BASE, "IPA", "Payload")
 APP_DIR = os.path.join(PAYLOAD_DIR, "NovaTech.app")
-RENDER_URL = os.environ.get("TV_RENDER_URL", "https://tradingview.onrender.com")
+RENDER_URL = os.environ.get("TV_RENDER_URL", "https://tradingview-k7u2.onrender.com")
 
 def build():
     # Clean
@@ -15,17 +16,22 @@ def build():
 
     # Extract original IPA
     with zipfile.ZipFile(SOURCE_IPA, 'r') as z:
-        z.extractall(os.path.join(os.path.dirname(os.path.abspath(__file__)), "IPA"))
+        z.extractall(os.path.join(BASE, "IPA"))
 
-    # Inject Render URL into main.html
-    html_path = os.path.join(APP_DIR, "main.html")
-    if os.path.exists(html_path):
-        with open(html_path, 'r', encoding='utf-8') as f:
-            html = f.read()
-        html = html.replace('"https://tradingview.onrender.com"', f'"{RENDER_URL}"')
-        with open(html_path, 'w', encoding='utf-8') as f:
-            f.write(html)
-        print(f"main.html updated with URL: {RENDER_URL}")
+    # Copy our new main.html (overwrite the old one)
+    src_html = os.path.join(BASE, "IPA", "main.html")
+    dst_html = os.path.join(APP_DIR, "main.html")
+    if os.path.exists(src_html):
+        shutil.copy2(src_html, dst_html)
+        print("main.html copied")
+
+    # Inject Render URL
+    with open(dst_html, 'r', encoding='utf-8') as f:
+        html = f.read()
+    html = html.replace('"https://tradingview.onrender.com"', f'"{RENDER_URL}"')
+    with open(dst_html, 'w', encoding='utf-8') as f:
+        f.write(html)
+    print(f"URL injected: {RENDER_URL}")
 
     # Update Info.plist — keep original bundle ID
     plist_path = os.path.join(APP_DIR, "Info.plist")
