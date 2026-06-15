@@ -3,7 +3,7 @@ sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from dotenv import load_dotenv; load_dotenv()
 from flask import Flask, render_template, jsonify, request, redirect, session, url_for, send_from_directory, make_response
 from models import db, Log, init_db, Key
-from config import BASE_DIR, DB_PATH, ADMIN_USER, DASH_PASSWORD, ENV, PORT, PUBLIC_BASE_URL, BOT_TOKEN, ADMIN_ID, BOT_ENABLED, SUPABASE_ENABLED, SUPABASE_DB_HOST, SUPABASE_DB_PORT, SUPABASE_DB_NAME, SUPABASE_DB_USER, SUPABASE_DB_PASSWORD
+from config import BASE_DIR, DB_PATH, ADMIN_USER, DASH_PASSWORD, ENV, PORT, PUBLIC_BASE_URL, BOT_TOKEN, ADMIN_ID, BOT_ENABLED, SUPABASE_ENABLED, SUPABASE_DB_HOST, SUPABASE_DB_PORT, SUPABASE_DB_NAME, SUPABASE_DB_USER, SUPABASE_DB_PASSWORD, DATABASE_URL
 import secrets, string
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] %(message)s")
@@ -12,10 +12,13 @@ log = logging.getLogger("tradingview.web")
 app = Flask(__name__)
 app.secret_key = os.environ.get("TV_WEB_SECRET", secrets.token_hex(32))
 
-if SUPABASE_ENABLED and SUPABASE_DB_HOST:
+if DATABASE_URL:
+    app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
+    log.info("DB: Render PostgreSQL")
+elif SUPABASE_ENABLED and SUPABASE_DB_HOST:
     _pg_uri = f"postgresql://{SUPABASE_DB_USER}:{urllib.parse.quote_plus(SUPABASE_DB_PASSWORD)}@{SUPABASE_DB_HOST}:{SUPABASE_DB_PORT}/{SUPABASE_DB_NAME}?sslmode=require"
     app.config["SQLALCHEMY_DATABASE_URI"] = _pg_uri
-    log.info(f"DB: PostgreSQL {SUPABASE_DB_HOST}")
+    log.info(f"DB: Supabase {SUPABASE_DB_HOST}")
 else:
     app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(os.path.dirname(__file__), "tradingview.db")
     log.info("DB: SQLite")
