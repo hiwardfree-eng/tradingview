@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.env
+.backups/
+*.db
+*.db-shm
+*.db-wal
+logs/
+IPA/Payload/

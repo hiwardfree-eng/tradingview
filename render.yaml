@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: tradingview-web
+    runtime: python
+    region: oregon
+    plan: free
+    buildCommand: pip install -r website/requirements.txt
+    startCommand: gunicorn -c gunicorn.conf.py website.wsgi:app --bind 0.0.0.0:$PORT --workers 1 --timeout 120
+    envVars:
+      - key: TV_ADMIN_USER
+        value: admin
+      - key: TV_DASH_PASSWORD
+        sync: false
+      - key: TV_WEB_SECRET
+        generateValue: true
+      - key: TV_BOT_TOKEN
+        sync: false
+      - key: TV_ADMIN_ID
+        sync: false
+      - key: TV_BOT_ENABLED
+        value: "1"
+      - key: TV_ENV
+        value: production
+      - key: TV_PUBLIC_BASE_URL
+        value: "https://tradingview.onrender.com"
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: SUPABASE_ENABLED
+        value: "0"

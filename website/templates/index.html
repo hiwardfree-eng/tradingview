@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block content %}
+<section class="section" style="padding-top:80px">
+  <h1 class="section-title" style="font-size:2.8rem">TRADINGVIEW</h1>
+  <p class="section-sub">TERMINAL DE TRADING — TIEMPO REAL</p>
+  <div style="max-width:700px;margin:0 auto 40px">
+    <div class="glass" style="padding:30px;border-color:rgba(34,211,238,0.2)">
+      <div style="font-family:'JetBrains Mono',monospace;font-size:2.5rem;font-weight:700;color:#22d3ee;margin-bottom:4px" id="live-price">--</div>
+      <div style="font-size:.75rem;color:#64748b;letter-spacing:.15em;text-transform:uppercase;margin-bottom:20px">BTC/USDT • Tiempo Real</div>
+      <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+        <div><div style="font-size:.7rem;color:#64748b;text-transform:uppercase">Cambio 24h</div><div style="font-size:1.1rem;font-weight:700;color:#22c55e" id="change-24h">+0.00%</div></div>
+        <div><div style="font-size:.7rem;color:#64748b;text-transform:uppercase">Máx 24h</div><div style="font-size:1.1rem;font-weight:700" id="high-24h">--</div></div>
+        <div><div style="font-size:.7rem;color:#64748b;text-transform:uppercase">Mín 24h</div><div style="font-size:1.1rem;font-weight:700" id="low-24h">--</div></div>
+        <div><div style="font-size:.7rem;color:#64748b;text-transform:uppercase">Volumen</div><div style="font-size:1.1rem;font-weight:700" id="volume">--</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cards" style="max-width:900px;margin:0 auto">
+    <div class="card"><div class="card-icon">📊</div><h3>Gráficos en Vivo</h3><p>Chart TradingView profesional con indicadores técnicos, velas y profundidad de mercado.</p></div>
+    <div class="card"><div class="card-icon">🔑</div><h3>Acceso por Key</h3><p>Sistema de claves TV-XXXXXX. Ingresá tu key y accedé a la terminal completa.</p></div>
+    <div class="card"><div class="card-icon">🤖</div><h3>Bot de Señales</h3><p>Alertas de trading vía Telegram. Estrategias automatizadas en tiempo real.</p></div>
+    <div class="card"><div class="card-icon">🛡️</div><h3>Seguridad</h3><p>Conexión cifrada, autenticación por key, panel admin con control total.</p></div>
+  </div>
+</section>
+
+<section class="section">
+  <h2 class="section-title">📈 GRÁFICO EN VIVO</h2>
+  <p class="section-sub">BTC/USDT — CHART PROFESIONAL</p>
+  <div class="glass" style="padding:4px;border-color:rgba(34,211,238,0.12);overflow:hidden;border-radius:12px">
+    <div id="tv-chart" style="height:520px;border-radius:10px;overflow:hidden;background:#0a0b0f"></div>
+  </div>
+</section>
+
+<section class="section" style="text-align:center">
+  <h2 class="section-title">🚀 COMENZAR</h2>
+  <p class="section-sub">OBTENÉ TU KEY Y ACCEDÉ A LA TERMINAL</p>
+  <div style="margin-top:20px;display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+    <a href="/terminal" class="btn btn-primary">Abrir Terminal</a>
+    <a href="/downloads" class="btn btn-outline">Descargar App</a>
+    <a href="/login" class="btn btn-outline">Admin Panel</a>
+  </div>
+</section>
+{% endblock %}
+
+{% block scripts %}
+new TradingView.widget({
+  container_id: "tv-chart",
+  width: "100%", height: 520,
+  symbol: "BINANCE:BTCUSDT",
+  interval: "60",
+  timezone: "America/Argentina/Buenos_Aires",
+  theme: "dark",
+  style: "1",
+  locale: "es",
+  toolbar_bg: "#0a0b0f",
+  enable_publishing: false,
+  hide_side_toolbar: false,
+  allow_symbol_change: true,
+  details: true,
+  studies: ["RSI@tv-basicstudies", "MACD@tv-basicstudies", "BB@tv-basicstudies"],
+  disabled_features: ["use_localstorage_for_settings"],
+  overrides: {"paneProperties.background": "#0a0b0f", "paneProperties.vertGridProperties.color": "#1a1d2e", "paneProperties.horzGridProperties.color": "#1a1d2e"},
+  loading_screen: {backgroundColor: "#0a0b0f"}
+});
+
+async function fetchPrice(){
+  try{
+    const r=await fetch("https://api.binance.com/api/v3/ticker/24hr?symbol=BTCUSDT");
+    const d=await r.json();
+    const p=parseFloat(d.lastPrice);
+    document.getElementById("live-price").textContent="$"+p.toLocaleString(undefined,{minimumFractionDigits:2});
+    const c=parseFloat(d.priceChangePercent);
+    const el=document.getElementById("change-24h");
+    el.textContent=(c>=0?"+":"")+c.toFixed(2)+"%";
+    el.style.color=c>=0?"#22c55e":"#ef4444";
+    document.getElementById("high-24h").textContent="$"+parseFloat(d.highPrice).toLocaleString();
+    document.getElementById("low-24h").textContent="$"+parseFloat(d.lowPrice).toLocaleString();
+    document.getElementById("volume").textContent=parseFloat(d.volume).toLocaleString(undefined,{maximumFractionDigits:0});
+  }catch(e){}
+}
+fetchPrice();
+setInterval(fetchPrice,5000);
+// Load TradingView chart library
+(function(){
+  var s=document.createElement("script");
+  s.src="https://s3.tradingview.com/tv.js";
+  s.onload=function(){
+    if(typeof TradingView!=="undefined"){
+      new TradingView.widget({
+        container_id:"tv-chart",
+        width:"100%",height:520,
+        symbol:"BINANCE:BTCUSDT",
+        interval:"60",
+        timezone:"America/Argentina/Buenos_Aires",
+        theme:"dark",
+        style:"1",
+        locale:"es",
+        toolbar_bg:"#0a0b0f",
+        enable_publishing:false,
+        hide_side_toolbar:false,
+        allow_symbol_change:true,
+        details:true,
+        studies:["RSI@tv-basicstudies","MACD@tv-basicstudies","BB@tv-basicstudies"],
+        disabled_features:["use_localstorage_for_settings"],
+        overrides:{"paneProperties.background":"#0a0b0f","paneProperties.vertGridProperties.color":"#1a1d2e","paneProperties.horzGridProperties.color":"#1a1d2e"},
+        loading_screen:{backgroundColor:"#0a0b0f"}
+      });
+    }
+  };
+  document.head.appendChild(s);
+})();
+{% endblock %}

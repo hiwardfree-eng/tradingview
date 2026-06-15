@@ -1,0 +1,11 @@
+flask
+flask-sqlalchemy
+gunicorn
+requests
+psutil
+python-telegram-bot
+pyjwt
+qrcode[pil]
+psycopg2-binary
+python-dotenv
+werkzeug
