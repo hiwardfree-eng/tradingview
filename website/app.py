@@ -12,32 +12,31 @@ log = logging.getLogger("tradingview.web")
 app = Flask(__name__)
 app.secret_key = os.environ.get("TV_WEB_SECRET", secrets.token_hex(32))
 
-if DATABASE_URL:
-    app.config["SQLALCHEMY_DATABASE_URI"] = DATABASE_URL
-    log.info("DB: Render PostgreSQL")
-elif SUPABASE_ENABLED and SUPABASE_DB_HOST:
-    _pg_uri = f"postgresql://{SUPABASE_DB_USER}:{urllib.parse.quote_plus(SUPABASE_DB_PASSWORD)}@{SUPABASE_DB_HOST}:{SUPABASE_DB_PORT}/{SUPABASE_DB_NAME}?sslmode=require"
-    app.config["SQLALCHEMY_DATABASE_URI"] = _pg_uri
-    log.info(f"DB: Supabase {SUPABASE_DB_HOST}")
-else:
-    app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(os.path.dirname(__file__), "tradingview.db")
-    log.info("DB: SQLite")
+DB_URI = DATABASE_URL
+if not DB_URI and SUPABASE_ENABLED and SUPABASE_DB_HOST:
+    DB_URI = f"postgresql://{SUPABASE_DB_USER}:{urllib.parse.quote_plus(SUPABASE_DB_PASSWORD)}@{SUPABASE_DB_HOST}:{SUPABASE_DB_PORT}/{SUPABASE_DB_NAME}?sslmode=require"
+DB_FALLBACK = "sqlite:///" + os.path.join(os.path.dirname(__file__), "tradingview.db")
 
-app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.config["SESSION_COOKIE_HTTPONLY"] = True
-app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
-app.config["SESSION_PERMANENT"] = True
-app.config["PERMANENT_SESSION_LIFETIME"] = 3600
-db.init_app(app)
+def _setup_db(uri):
+    app.config["SQLALCHEMY_DATABASE_URI"] = uri
+    app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+    app.config["SESSION_COOKIE_HTTPONLY"] = True
+    app.config["SESSION_COOKIE_SAMESITE"] = "Lax"
+    app.config["SESSION_PERMANENT"] = True
+    app.config["PERMANENT_SESSION_LIFETIME"] = 3600
+    return uri
 
-with app.app_context():
-    try: init_db(app)
-    except Exception as e:
-        log.warning(f"DB init fail, fallback SQLite: {e}")
-        app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///" + os.path.join(os.path.dirname(__file__), "tradingview.db")
-        db.session.remove()
-        db.engine.dispose()
-        db.create_all()
+try:
+    _setup_db(DB_URI or DB_FALLBACK)
+    db.init_app(app)
+    with app.app_context():
+        init_db(app)
+except Exception as e:
+    log.warning(f"PostgreSQL failed ({e}), falling back to SQLite")
+    app.extensions.pop('sqlalchemy', None)
+    _setup_db(DB_FALLBACK)
+    db.init_app(app)
+    with app.app_context():
         init_db(app)
 
 bot_thread_started = False
